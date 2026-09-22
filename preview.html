@@ -23,6 +23,14 @@
     border-radius: 6px;
     margin-bottom: 8px;
   }
+  li strong {
+    display: block;
+    margin-bottom: 4px;
+  }
+  li .field {
+    font-size: 14px;
+    color: #444;
+  }
   #status {
     color: #666;
   }
@@ -63,7 +71,25 @@
         statusEl.remove();
         todos.forEach((todo) => {
           const li = document.createElement("li");
-          li.textContent = JSON.stringify(todo);
+
+          const title = document.createElement("strong");
+          title.textContent = todo.title;
+          li.appendChild(title);
+
+          const fields = [
+            ["수량", todo.amount],
+            ["완료 여부", todo.done ? "완료" : "미완료"],
+            ["마감일", todo.due_date],
+            ["생성일", todo.created_at],
+          ];
+
+          fields.forEach(([label, value]) => {
+            const p = document.createElement("div");
+            p.className = "field";
+            p.textContent = label + ": " + value;
+            li.appendChild(p);
+          });
+
           listEl.appendChild(li);
         });
       } catch (err) {
